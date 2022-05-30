@@ -1438,9 +1438,28 @@ int dr_load_roms(GAME_ROMS *r, char *rom_path, char *name) {
 	gn_init_pbar("Loading...", romsize);
 	for (i = 0; i < drv->nb_romfile; i++) {
 		//		gn_update_pbar(i, drv->nb_romfile);
-		if (load_region(gz, r, drv->rom[i].region, drv->rom[i].src,
-				drv->rom[i].dest, drv->rom[i].size, drv->rom[i].crc,
-				drv->rom[i].filename) != 0) {
+
+		int ret = load_region(gz, r, drv->rom[i].region, drv->rom[i].src,
+			drv->rom[i].dest, drv->rom[i].size, drv->rom[i].crc,
+			drv->rom[i].filename);// != 0);
+
+			if (ret) {
+				unsigned char name[260];
+				strcpy(name, drv->rom[i].filename);
+				char* p = strrchr(name, '.');
+				if (p) {
+					*(p + 1) = 'r';
+					*(p + 2) = 'o';
+					*(p + 3) = 'm';
+
+					ret = load_region(gz, r, drv->rom[i].region, drv->rom[i].src,
+						drv->rom[i].dest, drv->rom[i].size, drv->rom[i].crc,
+						name);
+				}
+			}
+
+
+		if (ret) {
 			/* File not found in the roms, try the parent */
 			if (gzp) {
 				int region = drv->rom[i].region;
