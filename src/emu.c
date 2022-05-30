@@ -351,7 +351,7 @@ void main_loop(void) {
 			reset_event();
 		}
 
-#if 0
+#if 0		// key input during emulation - gomwing 
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 				case SDL_JOYAXISMOTION:

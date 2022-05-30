@@ -2,6 +2,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+#include <stdio.h>
 
 #include "SDL.h"
 #include "../emu.h"
@@ -11,15 +12,25 @@
 #include "../gnutil.h"
 
 static SDL_Rect ov_rect;
-static SDL_Overlay *overlay;
+//static SDL_Overlay *overlay;
+static SDL_Texture* overlay;
 
+extern SDL_Renderer* ren;
 
-int
-blitter_overlay_init()
+int blitter_overlay_init()
 {	
+
     Uint32 width = visible_area.w;
     Uint32 height = visible_area.h;
+
+
+
+#ifdef SDL1
+
     Uint32 sdl_flags = (fullscreen?SDL_FULLSCREEN:0)|SDL_HWSURFACE|SDL_RESIZABLE;
+#else
+    Uint32 sdl_flags = 0;// (fullscreen ? SDL_FULLSCREEN : 0) | SDL_HWSURFACE | SDL_RESIZABLE;
+#endif
     Uint32 i;
 
     overlay=NULL;
@@ -30,7 +41,7 @@ blitter_overlay_init()
 	return GN_FALSE;
     }
 	
-	
+#ifdef SDL1 	
 	/* YV12 blitter must be double sized */
     if (scale<2) scale=2;
     width *= scale;
@@ -38,15 +49,20 @@ blitter_overlay_init()
     conf.res_x = width;
     conf.res_y = height;
 
+
         //screen = SDL_SetVideoMode(width, height, 16, sdl_flags);
     screen = SDL_SetVideoMode(width, height, 0, sdl_flags);
 
     overlay = SDL_CreateYUVOverlay(visible_area.w*2,visible_area.h*2,SDL_YV12_OVERLAY,screen);
-	
-    for(i=0;i<overlay->pitches[1]*overlay->h/2;i++) {
-        overlay->pixels[1][i]=128;
-        overlay->pixels[2][i]=128;
+    for (i = 0; i < overlay->pitches[1] * overlay->h / 2; i++) {
+        overlay->pixels[1][i] = 128;
+        overlay->pixels[2][i] = 128;
     }
+#else
+    overlay = SDL_CreateTexture(ren, SDL_PIXELFORMAT_YV12, SDL_TEXTUREACCESS_STREAMING,
+        width *2, height * 2);
+#endif	
+
     
     init_rgb2yuv_table();
     
@@ -60,18 +76,20 @@ blitter_overlay_init()
 int
 blitter_overlay_resize(int w,int h)
 {
+#ifdef SDL1
   Uint32 sdl_flags = SDL_HWSURFACE|SDL_RESIZABLE;
   screen = SDL_SetVideoMode(w, h, 16, sdl_flags);
   ov_rect.x=0;
   ov_rect.y=0;
   ov_rect.w=w;
   ov_rect.h=h;
+#endif
   return GN_TRUE;
 }
 
-void 
-blitter_overlay_update(void)
+void blitter_overlay_update(void)
 {
+#ifdef SDL1
     int x,y;
     Uint16 *buf=(Uint16*) buffer->pixels + visible_area.x + visible_area.y*(buffer->pitch>>1);
     Uint16 *bufy=(Uint16 *)overlay->pixels[0];
@@ -92,16 +110,26 @@ blitter_overlay_update(void)
         buf+=(buffer->pitch>>1);
     }
     SDL_DisplayYUVOverlay(overlay,&ov_rect);
+#endif
 }
 
 void
 blitter_overlay_close() {
+#ifdef SDL1
     if (overlay) SDL_FreeYUVOverlay(overlay);
     scale=CF_VAL(cf_get_item_by_name("scale"));
+#else
+    if (overlay) SDL_DestroyTexture(overlay);
+#endif
 }
 	
-void
-blitter_overlay_fullscreen() {
+extern SDL_Window* sdl_window;
+
+void blitter_overlay_fullscreen() {
+#ifdef SDL1
     SDL_WM_ToggleFullScreen(screen);
+#else
+    SDL_SetWindowFullscreen(sdl_window, SDL_WINDOW_FULLSCREEN);
+#endif
 }
 	

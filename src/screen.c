@@ -19,6 +19,9 @@
 #include "font.h"
 #include "gngeo_icon.h"
 
+SDL_Window* sdl_window;
+
+
 int effect_none_init(void);
 
 int effect_smooth_init(void);
@@ -405,16 +408,20 @@ void screen_fullscreen() {
 	blitter[nblitter].fullscreen();
 }
 
+
+
 void sdl_set_title(char *name) {
 	char *title;
 	if (name) {
 		title = malloc(strlen("Gngeo : ") + strlen(name) + 1);
 		if (title) {
 			sprintf(title, "Gngeo : %s", name);
-			SDL_WM_SetCaption(title, NULL);
+			/**///SDL_WM_SetCaption(title, NULL);
+			SDL_SetWindowTitle(sdl_window, title);
 		}
 	} else {
-		SDL_WM_SetCaption("Gngeo", NULL);
+		/**///SDL_WM_SetCaption("Gngeo", NULL);
+		SDL_SetWindowTitle(sdl_window, "Gngeo");
 	}
 }
 
@@ -424,13 +431,26 @@ void init_sdl(void) {
 
     char *nomouse = getenv("SDL_NOMOUSE");
     SDL_Surface *icon;
-
+#ifdef SDL1
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_NOPARACHUTE);
-
+#else
+	SDL_Init(SDL_INIT_EVERYTHING);
+#endif
 #ifdef GP2X
     atexit(gp2x_quit);
 #else
     atexit(SDL_Quit);
+#endif
+
+#ifndef SDL1
+	if (sdl_window == NULL) {
+#define SCALE 3
+		sdl_window = SDL_CreateWindow("GnGeo Neo-Geo Emulator",
+			SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED,
+			352 * SCALE, 256 * SCALE,
+			SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	}
 #endif
 
     if (screen_init() == GN_FALSE) {
@@ -438,19 +458,23 @@ void init_sdl(void) {
 	exit(-1);
     }
 
-    buffer = SDL_CreateRGBSurface(surface_type, 352, 256, 16, 0xF800, 0x7E0,
-				  0x1F, 0);
+    buffer = SDL_CreateRGBSurface(surface_type, 352, 256, 16, 0xF800, 0x7E0, 0x1F, 0);
     SDL_FillRect(buffer,NULL,SDL_MapRGB(buffer->format,0xE5,0xE5,0xE5));
 
     fontbuf = SDL_CreateRGBSurfaceFrom(font_image.pixel_data, font_image.width, font_image.height
 				       , 24, font_image.width * 3, 0xFF0000, 0xFF00, 0xFF, 0);
     SDL_SetColorKey(fontbuf,SDL_SRCCOLORKEY,SDL_MapRGB(fontbuf->format,0xFF,0,0xFF));
+#ifdef SDL1
     fontbuf=SDL_DisplayFormat(fontbuf);
+#else
+	SDL_ConvertSurfaceFormat(fontbuf, SDL_PIXELFORMAT_RGB565, 0);
+#endif
     icon = SDL_CreateRGBSurfaceFrom(gngeo_icon.pixel_data, gngeo_icon.width,
 				    gngeo_icon.height, gngeo_icon.bytes_per_pixel*8,
 				    gngeo_icon.width * gngeo_icon.bytes_per_pixel,
 				    0xFF, 0xFF00, 0xFF0000, 0);
 
-    SDL_WM_SetIcon(icon,NULL);
 
+    /**///SDL_WM_SetIcon(icon, NULL);
+	SDL_SetWindowIcon(sdl_window, icon);
 }

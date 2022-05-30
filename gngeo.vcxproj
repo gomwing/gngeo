@@ -43,9 +43,6 @@
     <ClCompile Include="src\emu.c" />
     <ClCompile Include="src\frame_skip.c" />
     <ClCompile Include="src\gnutil.c" />
-    <ClCompile Include="src\gp2x.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="src\gui_interf.c" />
     <ClCompile Include="src\list.c" />
     <ClCompile Include="src\main.c" />
@@ -118,6 +115,44 @@
     <ResourceCompile Include="gngeo32_private.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\blitter.h" />
+    <ClInclude Include="src\conf.h" />
+    <ClInclude Include="src\crypt.h" />
+    <ClInclude Include="src\debug.h" />
+    <ClInclude Include="src\driver.h" />
+    <ClInclude Include="src\effect.h" />
+    <ClInclude Include="src\emu.h" />
+    <ClInclude Include="src\event.h" />
+    <ClInclude Include="src\fileio.h" />
+    <ClInclude Include="src\font.h" />
+    <ClInclude Include="src\frame_skip.h" />
+    <ClInclude Include="src\getopt.h" />
+    <ClInclude Include="src\gngeo_icon.h" />
+    <ClInclude Include="src\gnutil.h" />
+    <ClInclude Include="src\gp2x.h" />
+    <ClInclude Include="src\gui_interf.h" />
+    <ClInclude Include="src\list.h" />
+    <ClInclude Include="src\mame_layer.h" />
+    <ClInclude Include="src\memory.h" />
+    <ClInclude Include="src\menu.h" />
+    <ClInclude Include="src\messages.h" />
+    <ClInclude Include="src\neocrypt.h" />
+    <ClInclude Include="src\pbar.h" />
+    <ClInclude Include="src\pd4990a.h" />
+    <ClInclude Include="src\profiler.h" />
+    <ClInclude Include="src\resfile.h" />
+    <ClInclude Include="src\roms.h" />
+    <ClInclude Include="src\screen.h" />
+    <ClInclude Include="src\sound.h" />
+    <ClInclude Include="src\state.h" />
+    <ClInclude Include="src\stb_image.h" />
+    <ClInclude Include="src\stb_zlib.h" />
+    <ClInclude Include="src\timer.h" />
+    <ClInclude Include="src\transpack.h" />
+    <ClInclude Include="src\unzip.h" />
+    <ClInclude Include="src\video.h" />
+    <ClInclude Include="src\videogl.h" />
+    <ClInclude Include="src\video_template.h" />
     <ClInclude Include="win32\config.h" />
     <ClInclude Include="zlib\crc32.h" />
     <ClInclude Include="zlib\deflate.h" />
@@ -201,14 +236,15 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_CONFIG_H;_USE_GUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./minizip;./zlib;F:\WORK\__WIN32__\SDL-1.2.15\include;./src;./win32;./win32/unistd;./win32/sys;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./minizip;./zlib;.\win32_SDL\include;./src;./win32;./win32/unistd;./win32/sys;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>F:\WORK\__WIN32__\SDL-1.2.15\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\win32_SDL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

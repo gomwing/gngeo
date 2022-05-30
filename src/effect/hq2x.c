@@ -181,6 +181,7 @@ void hq2x_16_def(Uint16 *dst0, Uint16  *dst1, Uint16 *src0, Uint16 *src1, Uint16
 
 void effect_hq2x_update(void)
 {
+#ifdef SDL1
     height = visible_area.h;
 	
     dst0 = (Uint16 *)screen->pixels + yscreenpadding;
@@ -200,6 +201,7 @@ void effect_hq2x_update(void)
 	src1 += 352;
 	src2 += 352;	
     }
+#endif
 }
 #else
 void effect_hq2x_update(void)

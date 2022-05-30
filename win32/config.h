@@ -1,3 +1,10 @@
+#ifndef GNGEO_CONFIG_H
+#define GNGEO_CONFIG_H
+
+#define WIN32_LEAN_AND_MEAN
+
+#include <windows.h>
+
 /* Define to 1 if you have the `atexit' function. */
 #define HAVE_ATEXIT 1
 /* Define to 1 if you have the `getopt_long' function. */
@@ -34,3 +41,30 @@
 // #ifndef S_ISLNK
 // #define S_ISREG(mode)  (0)
 // #endif
+#define GN_MAX_KEY	16
+
+static inline void _dbg(char* format, ...)
+{
+    //char	buff[128];
+    //char* stringptr = buff;
+    //va_list		   argp;
+    //va_start(argp, format);
+    //vsprintf(buff, format, argp);
+    //va_end(argp);
+    ////gm_sprintf(buff,format,arg);
+    OutputDebugStringA(format);
+}
+
+#define _msg(txt) MessageBoxA(NULL, (const char *)txt, (const char *)"WC warning", 0x30 | 0x6L | 0x100)
+
+#define SDL_HWSURFACE 1
+#define SDL_FULLSCREEN 1
+#define SDL_DOUBLEBUF 2
+#include <stdio.h>
+#ifndef SDL1
+#define SDL_SRCCOLORKEY 1
+#endif
+
+typedef unsigned int Uint32;
+
+#endif

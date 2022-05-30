@@ -112,33 +112,38 @@ void draw_message(const char *string)
 
 int SDL_getchar(void)
 {
-    SDL_Event event;
-    SDL_WaitEvent(&event);
-    //while(SDL_PollEvent(&event)){}
-    switch (event.type) {
-    case SDL_KEYDOWN:
-	switch(event.key.keysym.sym) {
-	case SDLK_RETURN:
-	    return -1;
-	case SDLK_LEFT:
-	    return LEFT;
-	case SDLK_RIGHT:
-	    return RIGHT;
-	case SDLK_DELETE:
-	    return DEL;
-	case SDLK_BACKSPACE:
-	    return BACKSPACE;
-	default:
-	    break;
+	SDL_Event event;
+	SDL_WaitEvent(&event);
+	//while(SDL_PollEvent(&event)){}
+	switch (event.type) {
+	case SDL_KEYDOWN:
+		switch (event.key.keysym.sym) {
+		case SDLK_RETURN:
+			return -1;
+		case SDLK_LEFT:
+			return LEFT;
+		case SDLK_RIGHT:
+			return RIGHT;
+		case SDLK_DELETE:
+			return DEL;
+		case SDLK_BACKSPACE:
+			return BACKSPACE;
+		default:
+			break;
+		}
+#ifdef SDL1	    
+		if ((event.key.keysym.unicode & 0xFF80) == 0) {
+			return (event.key.keysym.unicode & 0x7F);
+		}
+#endif
+		break;
 	}
-	    
-	if ( (event.key.keysym.unicode & 0xFF80) == 0 ) {
-	    return (event.key.keysym.unicode & 0x7F);
-	}
-	break;
-    }
-    return 0;
+	return 0;
 }
+
+#ifndef SDL1
+static void SDL_EnableUNICODE(int x) {}
+#endif
 
 void text_input(const char *message,int x,int y,char *string,int size)
 {

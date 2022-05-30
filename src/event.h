@@ -20,7 +20,7 @@ typedef enum {
 	GN_HOTKEY2,
 	GN_HOTKEY3,
 	GN_HOTKEY4,
-	GN_MAX_KEY,
+	/**///GN_MAX_KEY,
 }GNGEO_BUTTON;
 
 struct BUT_MAP {
@@ -35,7 +35,8 @@ struct BUT_MAPJAXIS {
 };
 
 typedef struct JOYMAP {
-	struct BUT_MAP key[SDLK_LAST];
+	/**///struct BUT_MAP key[SDLK_LAST];
+	struct BUT_MAP	key[GN_MAX_KEY];
 	struct BUT_MAP **jbutton;
 	struct BUT_MAPJAXIS **jaxe;
 	struct BUT_MAP **jhat;

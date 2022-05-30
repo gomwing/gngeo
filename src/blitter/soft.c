@@ -2,6 +2,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
+#include <stdio.h>
 
 #include "SDL.h"
 #include "../emu.h"
@@ -17,6 +18,11 @@
 #define SC_DISP_FIELD (1<<8)
 
 #endif
+
+SDL_Renderer* ren = NULL;
+SDL_Texture* tex = NULL;
+unsigned short* texbuf = NULL;
+
 /*
 static SDL_Rect buf_rect	 =	{16, 16, 304, 224};
 */
@@ -28,12 +34,15 @@ static SDL_Rect screen_rect =	{ 0,  0, 304, 224};
 //static SDL_Surface *offscreen;
 static int vsync;
 
+extern SDL_Window* sdl_window;
 
-int
-blitter_soft_init()
+int blitter_soft_init()
 {
 	Uint32 width = visible_area.w;
 	Uint32 height = visible_area.h;
+
+
+
 #ifdef GP2X
 	Uint32 screen_w;
 	int hw_surface=SDL_HWSURFACE/*|SDL_FULLSCREEN|SDL_DOUBLEBUF*/;
@@ -134,19 +143,50 @@ blitter_soft_init()
 
 
 #else
+
+#ifdef SDL1
 	screen = SDL_SetVideoMode(width, height, 16, sdl_flags);
-	//SDL_ShowCursor(SDL_DISABLE);
-#endif
 	if (!screen) return GN_FALSE;
-	if (vsync) yscreenpadding = screen_rect.y * screen->pitch;
+	// TODO: if (vsync) yscreenpadding = screen_rect.y * screen->pitch; 
 	//offscreen = SDL_CreateRGBSurface(SDL_HWSURFACE, 304, 224, 16, 0xF800, 0x7E0, 0x1F, 0);
 
 	return GN_TRUE;
+
+#else
+	screen = SDL_CreateRGBSurface(SDL_HWSURFACE, 320, 240, 16, 0xF800, 0x7E0, 0x1F, 0);
+
+	/*SDL_Renderer**/ ren = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		if (ren == NULL) {
+			_dbg("SDL_CreateRenderer Error: %d", SDL_GetError());
+			ren = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_SOFTWARE);
+			if (ren == NULL) {
+				_dbg("SDL_CreateRenderer unrecoverble Error: %d", SDL_GetError());
+
+				_msg("SDL_CreateRenderer unrecoverble Error");
+				//MessageBoxA(NULL, (LPCSTR)"SDL_CreateRenderer unrecoverble Error", (LPCSTR)"WC warning", MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2);
+				SDL_DestroyWindow(sdl_window);
+				return GN_FALSE;
+			}
+		}
+		if (tex == NULL) {
+
+			tex = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGB565, SDL_TEXTUREACCESS_STREAMING, width, height);
+		}
+		if (texbuf == NULL)
+		{
+			texbuf = malloc(width * height * 2);
+		}
+		//SDL_UpdateTexture(tex, NULL, texbuf, height * sizeof(short));
+		return GN_TRUE;
+
+#endif
+
+	//SDL_ShowCursor(SDL_DISABLE);
+#endif
+
 }
 
-void 
-update_double()
-{
+void update_double() {
 	Uint16 *src, *dst;
 	Uint32 s, d;
 	Uint8 w, h;
@@ -189,9 +229,7 @@ update_double()
 	}
 }
 
-void 
-update_triple()
-{
+void update_triple() {
 	Uint16 *src, *dst;
 	Uint32 s, d;
 	Uint8 w, h;
@@ -241,6 +279,7 @@ update_triple()
 		dst += (visible_area.w*6);
 	}
 }
+
 #ifdef GP2X
 int threaded_blit(void *buf)
 {
@@ -250,9 +289,8 @@ int threaded_blit(void *buf)
 	return 0;
 }
 #endif
-void
-blitter_soft_update()
-{
+
+void blitter_soft_update() {
 #ifdef GP2X
     SDL_BlitSurface(buffer, &visible_area, screen, &screen_rect);
     SDL_Flip(screen);
@@ -274,24 +312,34 @@ blitter_soft_update()
 #ifdef DEVKIT8000
 	SDL_Flip(screen);
 #else
-  if (vsync)
-	  SDL_Flip(screen);
-  else
-	  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+#ifdef SDL1
+  if (vsync)  SDL_Flip(screen);
+  else SDL_UpdateRect(screen, 0, 0, 0, 0);
+#else
+	//SDL_UpdateTexture(tex, NULL, texbuf, 320 * sizeof(unsigned short));
+	SDL_UpdateTexture(tex, NULL, screen->pixels, 320 * sizeof(unsigned short));
+
+	SDL_RenderClear(ren);
+	SDL_RenderCopy(ren, tex, NULL, NULL);
+	SDL_RenderPresent(ren);
+#endif
+
+
 #endif
 //	SDL_Flip(screen);
 #endif
  
 }
 
-void
-blitter_soft_close()
-{
-    
+void blitter_soft_close() {
 }
 	
-void
-blitter_soft_fullscreen() {
+void blitter_soft_fullscreen() {
+#ifdef SDL1
   SDL_WM_ToggleFullScreen(screen);
+#else
+	SDL_SetWindowFullscreen(sdl_window, SDL_WINDOW_FULLSCREEN);
+#endif
 }
 	
