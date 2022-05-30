@@ -809,7 +809,7 @@ static void draw_menu(GN_MENU *m) {
 
 //#undef NB_ITEM_2
 
-GN_MENU_ITEM *gn_menu_create_item(const char *name, Uint32 type,
+GN_MENU_ITEM *gn_menu_create_item(char *name, Uint32 type,
 		int(*action)(GN_MENU_ITEM *self, void *param), void *param) {
 	GN_MENU_ITEM *t = malloc(sizeof(GN_MENU_ITEM));
 	t->name = strdup(name);
@@ -1232,7 +1232,8 @@ static void free_rom_browser_menu(void) {
 void init_rom_browser_menu(void) {
 	int i;
 	int nbf;
-	char filename[strlen(CF_STR(cf_get_item_by_name("rompath"))) + 256];
+	////char filename[strlen(CF_STR(cf_get_item_by_name("rompath"))) + 256];
+	char filename[MAX_PATH];
 	struct stat filestat;
 	struct dirent **namelist;
 	ROM_DEF *drv = NULL;
@@ -1486,8 +1487,8 @@ if (init == 0) {
 	while (effect[i].name != NULL) {
 		effect_menu->item = list_append(
 				effect_menu->item,
-				(void *) gn_menu_create_item(effect[i].desc, MENU_ACTION,
-						change_effect_action, (void *) effect[i].name));
+				(void*) gn_menu_create_item(effect[i].desc, MENU_ACTION,
+						change_effect_action, (void*) effect[i].name));
 		effect_menu->nb_elem++;
 		i++;
 	}
@@ -1503,11 +1504,11 @@ return 0;
 }
 
 static int change_samplerate_action(GN_MENU_ITEM *self, void *param) {
-int *rate = (int*) self->arg;
+int rate = (int) self->arg;
 
 if (rate != 0) {
 
-	CF_VAL(cf_get_item_by_name("samplerate")) = *rate;
+	CF_VAL(cf_get_item_by_name("samplerate")) = rate;
 	cf_item_has_been_changed(cf_get_item_by_name("samplerate"));
 	if (conf.sound && conf.game)
 		close_sdl_audio();
@@ -1515,7 +1516,7 @@ if (rate != 0) {
 		cf_item_has_been_changed(cf_get_item_by_name("sound"));
 	conf.sound = 1;
 	CF_BOOL(cf_get_item_by_name("sound")) = 1;
-	conf.sample_rate = *rate;
+	conf.sample_rate = rate;
 	//init_sdl_audio();
 	//YM2610ChangeSamplerate(conf.sample_rate);
 	if (conf.game) {
@@ -1581,7 +1582,7 @@ return 0;
 }
 
 static int save_conf_action(GN_MENU_ITEM *self, void *param) {
-int *type = (int*) self->arg;
+int type = (int) self->arg;
 if (type == 0)
 	cf_save_file(NULL, 0);
 else {

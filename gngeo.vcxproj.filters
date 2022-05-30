@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\minizip">
+      <UniqueIdentifier>{db763090-9434-47ac-9cdc-76b602f7a225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\blitter">
+      <UniqueIdentifier>{fdfce194-8765-4ebc-b7ec-3a917887662b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\effect">
+      <UniqueIdentifier>{51e2201b-0e1e-41ca-96ac-a0ddf1ecf624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\star">
+      <UniqueIdentifier>{c8f5af39-0751-42d3-98f6-e1a2adf42272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ym2610">
+      <UniqueIdentifier>{c769d269-8341-4a4c-a26c-dd9628fff36c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\win32">
+      <UniqueIdentifier>{359b58bb-ad97-408f-9be8-85e26628f93d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\zlib">
+      <UniqueIdentifier>{e18af4e3-09e8-44af-a3d4-f46e0e135cf9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\conf.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\debug.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\emu.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\frame_skip.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fileio.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gp2x.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gui_interf.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Minizip\ioapi.c">
+      <Filter>소스 파일\minizip</Filter>
+    </ClCompile>
+    <ClCompile Include="src\list.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\memory.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\messages.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\neocrypt.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pbar.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pd4990a.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\profiler.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\raze_interf.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\screen.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sound.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\star_interf.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\state.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\timer.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\transpack.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\video.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\blitter\opengl.c">
+      <Filter>소스 파일\blitter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\blitter\overlay.c">
+      <Filter>소스 파일\blitter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\blitter\soft.c">
+      <Filter>소스 파일\blitter</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\hq3x.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\hqx_common.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\interp.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\lq2x.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\lq3x.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\scale2x.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\hq2x.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\star\cpudebug.c">
+      <Filter>소스 파일\star</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ym2610\ym2610.c">
+      <Filter>소스 파일\ym2610</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ym2610\2610intf.c">
+      <Filter>소스 파일\ym2610</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\sai.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\WORK\__NDS__\gngeo\src\driver.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\WORK\__NDS__\gngeo\win32\unistd\getopt.c">
+      <Filter>소스 파일\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\WORK\__NDS__\gngeo\src\event.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\scanline.c">
+      <Filter>소스 파일\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\roms.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gnutil.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mame_layer.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drz80_interf.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unzip.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\neoboot.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\resfile.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mamez80_interf.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb_image.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb_zlib.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\inflate.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\inftrees.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\trees.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\uncompr.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\zutil.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\adler32.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\compress.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\crc32.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\deflate.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\gzio.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\infback.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="zlib\inffast.c">
+      <Filter>소스 파일\zlib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\screen_i386.asm">
+      <Filter>소스 파일</Filter>
+    </None>
+    <None Include="src\video_i386.asm">
+      <Filter>소스 파일</Filter>
+    </None>
+    <None Include="src\effect\hq2x16.asm">
+      <Filter>소스 파일\effect</Filter>
+    </None>
+    <None Include="src\effect\hq3x16.asm">
+      <Filter>소스 파일\effect</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="gngeo32_private.rc">
+      <Filter>소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="win32\config.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\inffixed.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\inflate.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\inftrees.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\trees.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\zconf.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\zconf.in.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\zlib.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\zutil.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\crc32.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\deflate.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib\inffast.h">
+      <Filter>소스 파일\zlib</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\effect\2xsaimmx.asm">
+      <Filter>소스 파일\effect</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\effect\effect_i386.asm">
+      <Filter>소스 파일\effect</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\raze\raze.asm">
+      <Filter>소스 파일</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\star\_star.asm">
+      <Filter>소스 파일\star</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

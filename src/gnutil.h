@@ -38,7 +38,7 @@ void gn_strncat_dir(char *basedir,char *dir,size_t n);
 #define GN_FALSE 0
 
 /* TODO: redesign */
-#define CHECK_ALLOC(a) {if (!a) {printf("Out of Memory\n");exit(1);}}
+#define CHECK_ALLOC(a) {if (!a) {printf("Out of Memory\n");exit(1);}};
 
 #define GNERROR_SIZE 1024
 extern char gnerror[GNERROR_SIZE];

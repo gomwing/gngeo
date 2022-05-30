@@ -69,7 +69,6 @@ static void catch_me(int signo) {
 int main(int argc, char *argv[])
 {
     char *rom_name;
-	char *original_rom_name;
     int rc;
 
 
@@ -89,11 +88,7 @@ int main(int argc, char *argv[])
     cf_init_cmd_line();
     cf_open_file(NULL); /* Open Default configuration file */
 
-	//Remove path and extension
-    original_rom_name=cf_parse_cmd_line(argc,argv);
-	printf("original rom name=[%s]\n",original_rom_name);
-	rom_name = remove_path_and_extension(original_rom_name, '.', '/'); 
-	printf("rom name=[%s]\n",rom_name);
+    rom_name=cf_parse_cmd_line(argc,argv);
 
     /* print effect/blitter list if asked by user */
     if (!strcmp(CF_STR(cf_get_item_by_name("effect")),"help")) {

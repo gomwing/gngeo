@@ -101,9 +101,29 @@ SDL_Surface *load_state_img(char *game,int slot);
 int load_state(char *game,int slot);
 int save_state(char *game,int slot);
 Uint32 how_many_slot(char *game);
-int mkstate_data(gzFile gzf,void *data,int size,int mode);
+int mkstate_data(struct gzFile_s * gzf,void *data,int size,int mode);
 
 void neogeo_init_save_state(void);
+
+#else
+typedef struct Z80_STATE {
+    Uint16 PC, SP, AF, BC, DE, HL, IX, IY;
+    Uint16 AF2, BC2, DE2, HL2;
+    Uint8  R, R2, IFF1, IFF2, IM, I;
+    Uint8  IRQV, IRQL;
+    Uint16 bank[4];
+    Uint8  ram[0x800];
+}Z80_STATE;
+
+typedef struct M68K_STATE {
+    Uint32 dreg[8];
+    Uint32 areg[8];
+    Uint32 asp;
+    Uint32 pc;
+    Uint32 sr;
+    Uint32 bank;
+    Uint8  ram[0x10000];
+}M68K_STATE;
 
 #endif
 

@@ -366,7 +366,7 @@ void gn_unzip_fclose(ZFILE *z) {
 #endif
 	free(z);
 }
-
+#define S_ISLNK(x) (0)
 PKZIP *gn_open_zip(char *file) {
 	PKZIP *zf = malloc(sizeof(PKZIP));
 	int size;

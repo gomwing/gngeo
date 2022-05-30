@@ -4,13 +4,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <strings.h>
 #include <string.h>
 //#include <stdbool.h>
 #include "roms.h"
 #include "emu.h"
 #include "memory.h"
-//#include "unzip.h"
+#include "unzip.h"
 #if defined(HAVE_LIBZ)// && defined (HAVE_MMAP)
 #include "zlib.h"
 #endif
@@ -2091,39 +2090,4 @@ int init_game(char *rom_name) {
 
 
     return GN_TRUE;
-}
-
-char *remove_path_and_extension(char* mystr, char dot, char sep) {
-    char *retstr, *lastdot, *lastsep;
-	char *filename;
-    // Error checks and allocate string.
-
-    if (mystr == NULL)
-        return NULL;
-    if ((retstr = malloc (strlen (mystr) + 1)) == NULL)
-        return NULL;
-
-    // Make a copy and find the relevant characters.
-	filename = basename(mystr);
-    strcpy (retstr, filename);
-    lastdot = strrchr (retstr, dot);
-    lastsep = (sep == 0) ? NULL : strrchr (retstr, sep);
-
-    // If it has an extension separator.
-
-    if (lastdot != NULL) {
-        // and it's before the extenstion separator.
-        if (lastsep != NULL) {
-            if (lastsep < lastdot) {
-                // then remove it.
-                *lastdot = '\0';
-            }
-        } else {
-            // Has extension separator with no path separator.
-            *lastdot = '\0';
-        }
-    }
-
-    // Return the modified string.
-    return retstr;
 }

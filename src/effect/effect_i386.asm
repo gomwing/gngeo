@@ -1,5 +1,5 @@
 	;; nasm macro
-	%include '../c32.mac'
+	%include './src/c32.mac'
 SECTION .text
 
 	;; global definition
