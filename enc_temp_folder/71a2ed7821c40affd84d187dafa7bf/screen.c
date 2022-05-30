@@ -269,9 +269,9 @@ void screen_change_blitter_and_effect(void) {
 	nblitter = get_blitter_by_name(CF_STR(cf_blitter));
 	neffect = get_effect_by_name(CF_STR(cf_effect));
 //	printf("set %s %s \n", bname, ename);
-#ifdef SDL1
+
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
-#endif
+
 	if ((*blitter[nblitter].init) () == GN_FALSE) {
 		nblitter = 0;
 		sprintf(CF_STR(cf_get_item_by_name("blitter")), "soft");
@@ -288,9 +288,8 @@ void screen_change_blitter_and_effect(void) {
 	} /*else
 		snprintf(CF_STR(cf_get_item_by_name("effect")), 255, "%s", ename);
 */
-#ifdef SDL1
 	SDL_InitSubSystem(SDL_INIT_VIDEO);
-#endif
+
 
 	printf("CURSOR=%d\n", SDL_ShowCursor(SDL_QUERY));
 	if (SDL_ShowCursor(SDL_QUERY) == 1)

@@ -542,6 +542,7 @@ int wait_event(void) {
 				//return GN_A;
 				break;
 			case SDLK_RETURN:
+			case SDLK_SPACE:
 			case SDLK_KP_ENTER:
 				joy_state[0][GN_B] = 1;
 				//last=GN_B;
@@ -549,7 +550,7 @@ int wait_event(void) {
 				break;
 			default:
 				SDL_PushEvent(&event);
-				handle_event();
+				//handle_event();
 				break;
 			}
 			break;
