@@ -1370,7 +1370,7 @@ if (init == 0) {
 		apath = realpath(".", NULL);
 #endif
 	snprintf(CF_STR(cf_get_item_by_name("rompath")), CF_MAXSTRLEN, "%s", apath);
-	free(apath);
+	/**///free(apath);
 	free(rpath);
 
 	scaning = 1;
