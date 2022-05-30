@@ -1325,11 +1325,15 @@ ROM_DEF *dr_check_zip(const char *filename) {
 #ifdef HAVE_BASENAME
 	char *game = strdup(basename(filename));
 #else
-	char *game = strdup(strrchr(filename, '/'));
+	char* game = NULL;
+	char* p = strrchr(filename, '/');
+	if (p) game = strdup( p + 1);
+
 #endif
 	//	printf("Game=%s\n", game);
 	if (game == NULL)
 		return NULL;
+	//game++;		// gomwing added /**///
 	z = strstr(game, ".zip");
 	//	printf("z=%s\n", game);
 	if (z == NULL)
