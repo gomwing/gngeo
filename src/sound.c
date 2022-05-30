@@ -134,8 +134,11 @@ int init_sdl_audio(void)
 	 
 	//desired->callback = NULL;
     desired->userdata = NULL;
-    //SDL_OpenAudio(desired, NULL);
+#ifdef SDL1
     SDL_OpenAudio(desired, obtain);
+#else
+    SDL_OpenAudio(desired, NULL);
+#endif
     printf("Obtained sample rate: %d\n",obtain->freq);
     conf.sample_rate=obtain->freq;
     return GN_TRUE;

@@ -243,6 +243,65 @@ int handle_pdep_event(SDL_Event* event) {
 #define EVGAME 1
 #define EVMENU 2
 
+int key_stick(int down, SDL_Keycode code) {
+
+	switch (code) {
+	case SDLK_UP:
+		joy_state[0][GN_UP] = down;
+		break;
+	case SDLK_DOWN:
+		joy_state[0][GN_DOWN] = down;
+		break;
+	case SDLK_LEFT:
+		joy_state[0][GN_LEFT] = down;
+		break;
+	case SDLK_RIGHT:
+		joy_state[0][GN_RIGHT] = down;
+		break;
+	case SDLK_TAB:
+		joy_state[0][GN_MENU_KEY] = down;
+		break;
+	case SDLK_z:
+		joy_state[0][GN_A] = down;
+		break;
+	case SDLK_x:
+		joy_state[0][GN_B] = down;
+		break;
+	case SDLK_a:
+		joy_state[0][GN_C] = down;
+		break;
+	case SDLK_s:
+		joy_state[0][GN_D] = down;
+		break;
+	case SDLK_RETURN:
+		joy_state[0][GN_SELECT_COIN] = down;
+	case SDLK_SPACE:
+	case SDLK_KP_ENTER:
+		joy_state[0][GN_START] = down;
+		break;
+	case SDLK_ESCAPE:
+		joy_state[0][GN_MENU_KEY] = down;
+		break;
+	case SDLK_F1:
+		joy_state[0][GN_HOTKEY1] = down;
+		break;
+	case SDLK_F2:
+		joy_state[0][GN_HOTKEY2] = down;
+		break;
+	case SDLK_F3:
+		joy_state[0][GN_HOTKEY3] = down;
+		break;
+	case SDLK_F4:
+		joy_state[0][GN_HOTKEY4] = down;
+		break;
+	default:
+		return 0;// SDL_PushEvent(&event);
+		//handle_event();
+		//break;
+	}
+	return 1;
+}
+
 int handle_event(void) {
 	SDL_Event event;
 	//	int i;
@@ -256,6 +315,9 @@ int handle_event(void) {
 		}
 		switch (event.type) {
 		case SDL_KEYUP:
+#ifndef GOMWING
+			if (!key_stick(0, event.key.keysym.sym)) SDL_PushEvent(&event);
+#else
 			//printf("%d\n",jmap->key[event.key.keysym.sym].player);
 			switch (jmap->key[event.key.keysym.sym].player) {
 			case 1:
@@ -271,8 +333,13 @@ int handle_event(void) {
 			default:
 				break;
 			}
+#endif
 			break;
 		case SDL_KEYDOWN:
+#ifndef GOMWING
+			if (!key_stick(1,event.key.keysym.sym)) SDL_PushEvent(&event);
+#else
+
 			//printf("%d\n", event.key.keysym.sym);
 			switch (jmap->key[event.key.keysym.sym].player) {
 			case 1:
@@ -288,6 +355,7 @@ int handle_event(void) {
 			default:
 				break;
 			}
+#endif
 			break;
 		case SDL_JOYHATMOTION: /* Hat only support Joystick map */
 		{
