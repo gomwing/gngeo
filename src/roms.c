@@ -1444,9 +1444,9 @@ int dr_load_roms(GAME_ROMS *r, char *rom_path, char *name) {
 			drv->rom[i].filename);// != 0);
 
 			if (ret) {
-				unsigned char name[260];
-				strcpy(name, drv->rom[i].filename);
-				char* p = strrchr(name, '.');
+				unsigned char altname[260];
+				strcpy(altname, drv->rom[i].filename);
+				char* p = strrchr(altname, '.');
 				if (p) {
 					*(p + 1) = 'r';
 					*(p + 2) = 'o';
@@ -1454,7 +1454,7 @@ int dr_load_roms(GAME_ROMS *r, char *rom_path, char *name) {
 
 					ret = load_region(gz, r, drv->rom[i].region, drv->rom[i].src,
 						drv->rom[i].dest, drv->rom[i].size, drv->rom[i].crc,
-						name);
+						altname);
 				}
 			}
 
