@@ -133,7 +133,7 @@ static void calculate_hotkey_bitmasks()
 
 
 int init_event(void) {
-#ifdef GOMWING
+
 
 	int i;
 	//	printf("sizeof joymap=%d nb_joy=%d\n",sizeof(JOYMAP),conf.nb_joy);
@@ -161,7 +161,7 @@ int init_event(void) {
 		for (i = 0; i < conf.nb_joy; i++) {
 			conf.joy[i] = SDL_JoystickOpen(i);
 			printf("joy \"%s\", axe:%d, button:%d\n",
-				SDL_JoystickName(i),
+				SDL_JoystickName(conf.joy[i]),
 				SDL_JoystickNumAxes(conf.joy[i]) + (SDL_JoystickNumHats(conf.joy[i]) * 2),
 				SDL_JoystickNumButtons(conf.joy[i]));
 			jmap->jbutton[i] = calloc(SDL_JoystickNumButtons(conf.joy[i]), sizeof(struct BUT_MAP));
@@ -171,7 +171,6 @@ int init_event(void) {
 	}
 	create_joymap_from_string(1, CF_STR(cf_get_item_by_name("p1control")));
 	create_joymap_from_string(2, CF_STR(cf_get_item_by_name("p2control")));
-#endif// GOMWING
 
 	return GN_TRUE;
 }
@@ -504,11 +503,11 @@ int wait_event(void) {
 	//SDL_WaitEvent(&event);
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
-		case SDL_QUIT:
-			//event_input->action_type = INPUT_ACTION_TYPE_PRESS;
-			//event_input->key_action = KEY_ACTION_QUIT;
-			// Deliberate fallthrough
-			break;
+		//case SDL_QUIT:
+		//	//event_input->action_type = INPUT_ACTION_TYPE_PRESS;
+		//	//event_input->key_action = KEY_ACTION_QUIT;
+		//	// Deliberate fallthrough
+		//	break;
 		case SDL_KEYDOWN:
 			/* Some default keyboard standard key */
 			switch (event.key.keysym.sym) {
@@ -563,7 +562,9 @@ int wait_event(void) {
 			counter = 40;
 			break;
 		default:
+
 			SDL_PushEvent(&event);
+#ifdef GOMWING
 			int ret = handle_event();
 			if (ret) exit(-1);
 			/* Simulate keyup */
@@ -576,6 +577,7 @@ int wait_event(void) {
 				last = -1;
 				counter = 40;
 			}
+#endif
 			break;
 		}
 	}
