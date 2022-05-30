@@ -705,9 +705,9 @@ int cf_open_file(char *filename) {
 		conf_file = (char *) alloca(len * sizeof (char));
 		sprintf(conf_file, "/PROGDIR/data/gngeorc");
 #else
-		int len = strlen("gngeorc") + strlen(getenv("HOME")) + strlen("/.gngeo/") + 1;
+		int len = MAX_PATH;// strlen("gngeorc") + strlen(getenv("HOME")) + strlen("/.gngeo/") + 1;
 		conf_file = (char *) alloca(len * sizeof (char));
-		sprintf(conf_file, "%s/.gngeo/gngeorc", getenv("HOME"));
+		sprintf(conf_file, "gngeo.cfg");
 #endif
 	}
 	if ((f = fopen(conf_file, "rb")) == 0) {
