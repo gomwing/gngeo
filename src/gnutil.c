@@ -72,27 +72,39 @@ char *get_gngeo_dir(void) {
 }
 #else
 
-char *get_gngeo_dir(void) {
-    static char *filename = NULL;
-#if defined (__AMIGA__)
-    int len = strlen("/PROGDIR/data/") + 1;
-#else
-    int len = strlen(getenv("HOME")) + strlen("/.gngeo/") + 1;
-#endif
-    if (!filename) {
-        filename = malloc(len * sizeof (char));
-        CHECK_ALLOC(filename);
-#if defined (__AMIGA__)
-        sprintf(filename, "/PROGDIR/data/");
-#else
-        sprintf(filename, "%s/.gngeo/", getenv("HOME"));
-#endif
-    }
-    check_dir(filename);
-    //printf("get_gngeo_dir %s\n",filename);
-    return filename;
+//char *get_gngeo_dir(void) {
+//    static char *filename = NULL;
+//#if defined (__AMIGA__)
+//    int len = strlen("/PROGDIR/data/") + 1;
+//#else
+//    //int len = strlen(getenv("HOME")) + strlen("/.gngeo/") + 1;
+//    int len = MAX_PATH;
+//#endif
+//    if (!filename) {
+//        filename = malloc(len * sizeof (char));
+//        CHECK_ALLOC(filename);
+//#if defined (__AMIGA__)
+//        sprintf(filename, "/PROGDIR/data/");
+//#else
+//        sprintf(filename, "%s/.gngeo/", getenv("HOME"));
+//#endif
+//    }
+//    check_dir(filename);
+//    //printf("get_gngeo_dir %s\n",filename);
+//    return filename;
+//}
+
+static char path[MAX_PATH];
+
+char* get_gngeo_dir(void) {
+    GetModuleFileName(GetModuleHandle(NULL), path, MAX_PATH);
+    char* p = strrchr(path, '/');
+    if (p) *p = '\0';
+    return path;
 }
+
 #endif
+
 
 void gn_set_error_msg(char *fmt,...) {
 	va_list pvar;

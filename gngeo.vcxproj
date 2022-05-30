@@ -41,9 +41,6 @@
     <ClCompile Include="src\effect\scale2x.c" />
     <ClCompile Include="src\effect\scanline.c" />
     <ClCompile Include="src\emu.c" />
-    <ClCompile Include="src\fileio.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="src\frame_skip.c" />
     <ClCompile Include="src\gnutil.c" />
     <ClCompile Include="src\gp2x.c">

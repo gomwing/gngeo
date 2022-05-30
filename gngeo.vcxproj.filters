@@ -48,9 +48,6 @@
     <ClCompile Include="src\frame_skip.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\fileio.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\gp2x.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
