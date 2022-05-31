@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="F:\WORK\__NDS__\gngeo\src\driver.c">
+    <ClCompile Include="src\driver.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="F:\WORK\__NDS__\gngeo\src\event.c" />
-    <ClCompile Include="F:\WORK\__NDS__\gngeo\win32\unistd\getopt.c" />
+    <ClCompile Include="src\event.c" />
+    <ClCompile Include="win32\unistd\getopt.c" />
     <ClCompile Include="Minizip\ioapi.c" />
     <ClCompile Include="src\blitter\opengl.c" />
     <ClCompile Include="src\blitter\overlay.c" />

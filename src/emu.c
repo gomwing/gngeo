@@ -294,6 +294,11 @@ static inline int update_scanline(void) {
 
 static int slow_motion = 0;
 
+void inject_key_event();
+
+
+extern char keys[256];
+
 void main_loop(void) {
 	int neo_emu_done = 0;
 	int m68k_overclk = CF_VAL(cf_get_item_by_name("68kclock"));
@@ -676,6 +681,15 @@ void main_loop(void) {
 					cpu_68k_reset();
                 }
 
+#ifndef GOMWING
+				int num_keys;
+				SDL_PumpEvents();
+				char* keyarray = SDL_GetKeyboardState(&num_keys);
+				for (int i = 0; i < 256; i++) keys[i] |= keyarray[i];
+				//memcpy(keys, keyarray, 256);
+				//key_stick(keys);
+				inject_key_event();		//gomwing
+#endif
 				if (a) {
 					cpu_68k_interrupt(a);
 				}

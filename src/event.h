@@ -35,7 +35,7 @@ struct BUT_MAPJAXIS {
 };
 
 typedef struct JOYMAP {
-	/**///struct BUT_MAP key[SDLK_LAST];
+	////struct BUT_MAP key[SDLK_LAST];
 	struct BUT_MAP	key[GN_MAX_KEY];
 	struct BUT_MAP **jbutton;
 	struct BUT_MAPJAXIS **jaxe;

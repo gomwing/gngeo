@@ -243,64 +243,38 @@ int handle_pdep_event(SDL_Event* event) {
 #define EVGAME 1
 #define EVMENU 2
 
-int key_stick(int down, SDL_Keycode code) {
+int key_stick(char* keys) {
+	int i = 0;
+	
+	joy_state[0][GN_UP] = keys[SDL_SCANCODE_UP];
+		joy_state[0][GN_DOWN] = keys[SDL_SCANCODE_DOWN];
+		joy_state[0][GN_LEFT] = keys[SDL_SCANCODE_LEFT];
+		joy_state[0][GN_RIGHT] = keys[SDL_SCANCODE_RIGHT];
+		//joy_state[0][GN_MENU_KEY] = keys[SDL_SCANCODE_TAB];
+		if(joy_state[0][GN_A] == 0 && joy_state[0][GN_B] == 0) i++;
 
-	switch (code) {
-	case SDLK_UP:
-		joy_state[0][GN_UP] = down;
-		break;
-	case SDLK_DOWN:
-		joy_state[0][GN_DOWN] = down;
-		break;
-	case SDLK_LEFT:
-		joy_state[0][GN_LEFT] = down;
-		break;
-	case SDLK_RIGHT:
-		joy_state[0][GN_RIGHT] = down;
-		break;
-	case SDLK_TAB:
-		joy_state[0][GN_MENU_KEY] = down;
-		break;
-	case SDLK_z:
-		joy_state[0][GN_A] = down;
-		break;
-	case SDLK_x:
-		joy_state[0][GN_B] = down;
-		break;
-	case SDLK_a:
-		joy_state[0][GN_C] = down;
-		break;
-	case SDLK_s:
-		joy_state[0][GN_D] = down;
-		break;
-	case SDLK_RETURN:
-		joy_state[0][GN_SELECT_COIN] = down;
-	case SDLK_SPACE:
-	case SDLK_KP_ENTER:
-		joy_state[0][GN_START] = down;
-		break;
-	case SDLK_ESCAPE:
-		joy_state[0][GN_MENU_KEY] = down;
-		break;
-	case SDLK_F1:
-		joy_state[0][GN_HOTKEY1] = down;
-		break;
-	case SDLK_F2:
-		joy_state[0][GN_HOTKEY2] = down;
-		break;
-	case SDLK_F3:
-		joy_state[0][GN_HOTKEY3] = down;
-		break;
-	case SDLK_F4:
-		joy_state[0][GN_HOTKEY4] = down;
-		break;
-	default:
-		return 0;// SDL_PushEvent(&event);
-		//handle_event();
-		//break;
-	}
+		joy_state[0][GN_A] = keys[SDL_SCANCODE_Z];
+		joy_state[0][GN_B] = keys[SDL_SCANCODE_X];
+
+		if (joy_state[0][GN_A] == 1 && joy_state[0][GN_B] == 1) {
+			i++;
+			if (i == 2) {
+				int k = 0;
+			}
+		}
+		joy_state[0][GN_C] = keys[SDL_SCANCODE_A];
+		joy_state[0][GN_D] = keys[SDL_SCANCODE_S];
+		joy_state[0][GN_SELECT_COIN] = keys[SDL_SCANCODE_RETURN];
+		joy_state[0][GN_START] = keys[SDL_SCANCODE_SPACE];
+		joy_state[0][GN_MENU_KEY] = keys[SDL_SCANCODE_ESCAPE];
+		joy_state[0][GN_HOTKEY1] = keys[SDL_SCANCODE_F1];
+		joy_state[0][GN_HOTKEY2] = keys[SDL_SCANCODE_F2];
+		joy_state[0][GN_HOTKEY3] = keys[SDL_SCANCODE_F3];
+		joy_state[0][GN_HOTKEY4] = keys[SDL_SCANCODE_F4];
 	return 1;
 }
+
+#ifdef GOMWING
 
 int handle_event(void) {
 	SDL_Event event;
@@ -309,7 +283,27 @@ int handle_event(void) {
 	int jaxis_threshold = 10000;
 	//int jaxis_threshold=2;
 
+	int num_keys;
+#if 0
 	while (SDL_PollEvent(&event)) {
+		if ((ret = handle_pdep_event(&event)) != 0) {
+			return ret;
+		}
+		SDL_PushEvent(&event);
+	}
+#else
+	SDL_PumpEvents();
+	//while (SDL_PollEvent(&event));
+#endif
+	char* keys = SDL_GetKeyboardState(num_keys);
+	key_stick(keys);
+
+	if (joy_state[0][GN_A] && joy_state[0][GN_B])
+	{
+		int k = 0;
+	}
+#if 0
+	while (0/*SDL_PollEvent(&event)*/) {
 		if ((ret = handle_pdep_event(&event)) != 0) {
 			return ret;
 		}
@@ -479,6 +473,9 @@ int handle_event(void) {
 		printf("\r");
 	*/
 	/* Update coin data */
+#endif
+
+#if 0
 	memory.intern_coin = 0x7;
 	if (joy_state[0][GN_SELECT_COIN])
 		memory.intern_coin &= 0x6;
@@ -539,6 +536,103 @@ int handle_event(void) {
 		return 1;
 	else
 		return 0;
+#endif
+	return 0;
+}
+
+#else
+
+
+char keys[256];
+
+int handle_event(void) {
+	SDL_Event event;
+	int ret=0;
+	while (SDL_PollEvent(&event));
+	{
+		if ((ret = handle_pdep_event(&event)) != 0) {
+			return ret;
+		}
+		//SDL_PushEvent(&event);
+	}
+	//return 0;
+
+	int num_keys;
+	SDL_PumpEvents();
+	char* keyarray = SDL_GetKeyboardState(&num_keys);
+	memcpy(keys, keyarray, 256);
+	//key_stick(keys);
+
+
+	return ret;
+}
+
+int inject_key_event()
+{
+	key_stick(keys);
+	memory.intern_coin = 0x7;
+	if (joy_state[0][GN_SELECT_COIN])
+		memory.intern_coin &= 0x6;
+	if (joy_state[1][GN_SELECT_COIN])
+		memory.intern_coin &= 0x5;
+	/* Update start data TODO: Select */
+	memory.intern_start = 0x8F;
+	if (joy_state[0][GN_START])
+		memory.intern_start &= 0xFE;
+	if (joy_state[1][GN_START])
+		memory.intern_start &= 0xFB;
+
+	/* Update P1 */
+	memory.intern_p1 = 0xFF;
+	if (joy_state[0][GN_UP] && (!joy_state[0][GN_DOWN]))
+		memory.intern_p1 &= 0xFE;
+	if (joy_state[0][GN_DOWN] && (!joy_state[0][GN_UP]))
+		memory.intern_p1 &= 0xFD;
+	if (joy_state[0][GN_LEFT] && (!joy_state[0][GN_RIGHT]))
+		memory.intern_p1 &= 0xFB;
+	if (joy_state[0][GN_RIGHT] && (!joy_state[0][GN_LEFT]))
+		memory.intern_p1 &= 0xF7;
+	if (joy_state[0][GN_A])
+		memory.intern_p1 &= 0xEF;	// A
+	if (joy_state[0][GN_B])
+		memory.intern_p1 &= 0xDF;	// B
+	if (joy_state[0][GN_C])
+		memory.intern_p1 &= 0xBF;	// C
+	if (joy_state[0][GN_D])
+		memory.intern_p1 &= 0x7F;	// D
+
+	/* Update P1 */
+	memory.intern_p2 = 0xFF;
+	if (joy_state[1][GN_UP] && (!joy_state[1][GN_DOWN]))
+		memory.intern_p2 &= 0xFE;
+	if (joy_state[1][GN_DOWN] && (!joy_state[1][GN_UP]))
+		memory.intern_p2 &= 0xFD;
+	if (joy_state[1][GN_LEFT] && (!joy_state[1][GN_RIGHT]))
+		memory.intern_p2 &= 0xFB;
+	if (joy_state[1][GN_RIGHT] && (!joy_state[1][GN_LEFT]))
+		memory.intern_p2 &= 0xF7;
+	if (joy_state[1][GN_A])
+		memory.intern_p2 &= 0xEF;	// A
+	if (joy_state[1][GN_B])
+		memory.intern_p2 &= 0xDF;	// B
+	if (joy_state[1][GN_C])
+		memory.intern_p2 &= 0xBF;	// C
+	if (joy_state[1][GN_D])
+		memory.intern_p2 &= 0x7F;	// D
+
+#if defined(GP2X) || defined(WIZ)
+	if (joy_state[0][GN_HOTKEY1] && joy_state[0][GN_HOTKEY2]
+		&& (joy_state[0][GN_START] || joy_state[0][GN_SELECT_COIN]))
+		return 1;
+#endif
+
+	if (joy_state[0][GN_MENU_KEY] == 1)
+		return 1;
+	else
+		return 0;
+#endif
+	return 0;
+
 
 }
 
